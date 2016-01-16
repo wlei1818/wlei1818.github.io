@@ -2,11 +2,11 @@
 layout: post
 title: 线程的基本操作
 categories: [Java,多线程]
-description: Thread
-keywords: Java, 线程
+description: ，Thread
+keywords: Java, 多线程，Thread
 autotoc: true
 ---
-本文记录是《Java高并发程序设计》第二章节学习笔记。
+本文是《Java高并发程序设计》第二章节学习笔记。
 
 本文讲述内容的完整代码实例见 <https://github.com/sunailian/TouchHigh>。
 
@@ -520,7 +520,7 @@ public class HashMapMultiThread {
 ```
 
 **上述程序可能产生3种情况：**   
-  
+
 - 输出正常结果；      
 - 程序正常结束，但是输出一个小于预期值的数；     
 - 程序永远无法结束：这个需要参考HashMap源码的put方法，当并发时的迭代遍历，把链表变成了一个环，因此永远是死循环了！     
