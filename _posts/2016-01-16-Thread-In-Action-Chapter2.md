@@ -1,6 +1,6 @@
 ---
 layout: post
-title: [Java高并发程序设计]-线程的基本操作
+title: [Java高并发程序设计]线程的基本操作
 categories: [多线程]
 description: Java，Thread
 keywords: Java, 多线程，Thread
