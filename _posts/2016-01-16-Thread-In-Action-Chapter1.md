@@ -7,6 +7,10 @@ keywords: Java, 多线程，Thread
 autotoc: true
 ---
 
+本文是《Java高并发程序设计》第三章节学习笔记。
+
+本文讲述内容的完整代码实例见 <https://github.com/sunailian/TouchHigh>。
+
 #Java并发的几个基本概念原则
 
 ##原子性
