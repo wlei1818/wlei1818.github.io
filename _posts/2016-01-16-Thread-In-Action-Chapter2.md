@@ -64,9 +64,10 @@ public boolean Thread.isInterrupted( );                        //判断是否被
 public static boolean Thread.interrupted( );                 //判断是否被中断，并清除当前中断状态
 
 ```
-** Thread.interrupt **：通知目标线程中断，并设置中断标志位；
-** Thread.isInterrupted **：通过判断中断标志位判断线程是否被中断；
-** Thread.interrupted **：判断当前线程的中断状态，但是会清除中断标志位状态；
+
+**Thread.interrupt**：通知目标线程中断，并设置中断标志位；
+**Thread.isInterrupted**：通过判断中断标志位判断线程是否被中断；
+**Thread.interrupted**：判断当前线程的中断状态，但是会清除中断标志位状态；
 
 ```java
 public static void main(String[] args) throws InterruptedException {
