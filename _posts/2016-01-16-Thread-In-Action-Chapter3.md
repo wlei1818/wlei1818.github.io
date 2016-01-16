@@ -10,7 +10,7 @@ autotoc: true
 
 本文讲述内容的完整代码实例见 <https://github.com/sunailian/TouchHigh>。
 
-#1.synchronized的功能扩展：重入锁
+##1.synchronized的功能扩展：重入锁
 
 ```java
 public class ReenterLock implements Runnable {
