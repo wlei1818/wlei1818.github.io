@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 线程的基本操作
-categories: [cate1, cate2]
+categories: [Java,多线程]
 description: Thread
 keywords: Java, 线程
 autotoc: true
