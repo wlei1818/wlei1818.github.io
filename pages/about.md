@@ -1,15 +1,15 @@
 ---
 layout: page
 title: About
-description: 打码改变世界
-keywords: Zhuang Ma, 马壮
+description: 指尖人生 Frank Sun
+keywords: Frank Sun
 header-img: green.jpg
 comments: true
 menu: 关于
 permalink: /about/
 ---
 
-我是马壮，码而生，码而立。
+码农文科生。
 
 仰慕「优雅编码的艺术」。
 
@@ -20,12 +20,11 @@ permalink: /about/
 
 ## 联系
 
-* GitHub：[@mzlogin](https://github.com/mzlogin)
-* LinkedIn：[@mazhuang](https://www.linkedin.com/in/mazhuang)
+* GitHub：[@Frank Sun](https://github.com/sunailian)
 * 博客：[{{ site.title }}]({{ site.url }})
-* 微博: [@mzlogin](http://weibo.com/mzlogin)
-* 知乎: [@mzlogin](http://www.zhihu.com/people/mzlogin)
-* 豆瓣: [@壮哥不胖](http://www.douban.com/people/freedim)
+* 微博: [@Frank Sun](http://weibo.com/sunailian0516)
+* 知乎: [@Frank Sun](https://www.zhihu.com/people/sun-yi-bin-18)
+
 
 ## Skill Keywords
 
@@ -36,16 +35,5 @@ permalink: /about/
     {% endfor %}
 </div>
 
-#### Mobile Developer Keywords
-<div class="btn-inline">
-    {% for keyword in site.skill_mobile_app_keywords %}
-    <button class="btn btn-outline" type="button">{{ keyword }}</button>
-    {% endfor %}
-</div>
 
-#### Windows Developer Keywords
-<div class="btn-inline">
-    {% for keyword in site.skill_windows_keywords %}
-    <button class="btn btn-outline" type="button">{{ keyword }}</button>
-    {% endfor %}
-</div>
+
