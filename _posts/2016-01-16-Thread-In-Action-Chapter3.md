@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Java并法包
-categories: [Java,多线程]
+categories: [多线程]
 description: Thread
 keywords: Java, 多线程，Thread
 autotoc: true

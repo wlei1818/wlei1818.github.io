@@ -1,8 +1,8 @@
 ---
 layout: post
 title: 线程的基本操作
-categories: [Java,多线程]
-description: ，Thread
+categories: [多线程]
+description: Java，Thread
 keywords: Java, 多线程，Thread
 autotoc: true
 ---
