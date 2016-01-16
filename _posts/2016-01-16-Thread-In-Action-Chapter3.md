@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Java并法包
+title: 《Java高并发程序设计》Java并法包
 categories: [多线程]
 description: Thread
 keywords: Java, 多线程，Thread
