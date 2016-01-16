@@ -183,11 +183,11 @@ public class WaitAndNotify {
 
 *打印信息：*
 ```java
-1452694743902：T1 Started！
-1452694743902：T1 wait for object !
-1452694743902：T2 start,notify one thread 
-1452694743902：T2 end 
-1452694745902：T1 end ！ 
+1452694743902：T1 Started！  
+1452694743902：T1 wait for object !  
+1452694743902：T2 start,notify one thread   
+1452694743902：T2 end   
+1452694745902：T1 end ！   
 ```
 
 - 可以发现，T1线程由于obj的wait方法后阻塞，T2线程nofity后，将T2线程sleep2秒，以便看到效果。 说明T1必须等T2释放obj锁之后，获取obj锁之后才能继续执行！
