@@ -5,25 +5,25 @@ baseurl:
 url: http://mazhuang.org
 domain: 
 date_format: "ordinal"
-title: 码志
-subtitle: "打码改变人生"
-description: "码志|打码改变人生"
-keywords: 码志
+title: 一亩三分地
+subtitle: "指尖人生 Frank Sun"
+description: "指尖人生 Frank Sun"
+keywords: 一亩三分地
 gavatar: /favicon.ico
 favicon: /favicon.ico
 header-img: facebook.jpg
 timezone: Asia/Shanghai
 encoding: "utf-8"
-source_code: https://github.com/mzlogin/mzlogin.github.io
+source_code: https://github.com/sunailian/sunailian.github.io
 
 # ---------------- #
 #      Author      #
 # ---------------- #
-author: Zhuang Ma 
-organization: Sogou, Inc.
-organization_url: https://www.sogou.com
-location: Beijing, China
-email: chumpma@gmail.com
+author: Frank Sun 
+organization: NetEase, Inc.
+organization_url: https://www.163.com
+location: HangZhou, China
+email: sunhanbin@139.com
 
 # ---------------- #
 #    Navigation    #
@@ -90,11 +90,11 @@ collections:
 #      Socials     #
 # ---------------- #
 duoshuo_username: mazhuang
-github_username: mzlogin
-douban_username: freedim
+github_username: sunailian
+douban_username: sunailian
 facebook_username: mzlogin
-weibo_username: mzlogin
-zhihu_username: mzlogin
+weibo_username: sunangie@126.com
+zhihu_username: sunangie@126.com
 twitter_username: mzlogin
 changyan: false
 
@@ -108,7 +108,7 @@ defaults:
             type: "posts"
         values:
             layout: "post"
-            author: "Zhuang Ma"
+            author: "Frank Sun"
             header-img: "facebook.jpg"
             autotoc: true
     -
@@ -124,6 +124,6 @@ defaults:
 skill_software_keywords: [Java, C++, Python, Design Patterns]
 skill_mobile_app_keywords: [Android, Reverse Engineering]
 skill_windows_keywords: [Win32 SDK, DuiLib, WTL, COM]
-popular_repos: ['chinese-copywriting-guidelines','android-reverse-engineering', 'csdncommenter', 'mzlogin.github.io', 'vim-markdown-toc']
+popular_repos: ['chinese-copywriting-guidelines','android-reverse-engineering', 'csdncommenter', 'sunailian.github.io', 'vim-markdown-toc']
 contribute_repos: ['sparanoid/chinese-copywriting-guidelines', 'waylife/RentCrawer']
 
