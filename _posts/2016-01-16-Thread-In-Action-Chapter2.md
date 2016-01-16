@@ -6,6 +6,9 @@ description: Thread
 keywords: Java, 线程
 autotoc: true
 ---
+本文记录是《Java高并发程序设计》第二章节学习笔记。
+
+本文讲述内容的完整代码实例见 <https://github.com/sunailian/TouchHigh>。
 
 ## 1.新建线程
 线程Thread调用start()方法，就会新建一个线程并让这个线程执行run()方法；
