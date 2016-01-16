@@ -107,7 +107,7 @@ public static void main(String[] args) throws InterruptedException {
         t1.interrupt();
     }  
 ```
-*注意：Thread.sleep( ）会由于中断而抛出异常，此时它会清除中断标记，如果不加处理，那么在下一次循环开始时，就无法捕捉这个异常。故在异常处理中，再次设置中断标记位。*
+*注意：Thread.sleep()会由于中断而抛出异常，此时它会**清除中断标记**，如果不加处理，那么在下一次循环开始时，就无法捕捉这个异常。故在异常处理中，再次设置中断标记位。*
 
 ```java
     public static void main(String[] args) throws InterruptedException {
@@ -182,21 +182,22 @@ public class WaitAndNotify {
 ```
 
 *打印信息：*
+
 ```java
-1452694743902：T1 Started！</br>
-1452694743902：T1 wait for object ! </br>
-1452694743902：T2 start,notify one thread </br>  
-1452694743902：T2 end </br>
-1452694745902：T1 end ！</br>   
+1452694743902：T1 Started！    
+1452694743902：T1 wait for object !      
+1452694743902：T2 start,notify one thread         
+1452694743902：T2 end        
+1452694745902：T1 end ！     
 ```
 
 - 可以发现，T1线程由于obj的wait方法后阻塞，T2线程nofity后，将T2线程sleep2秒，以便看到效果。 说明T1必须等T2释放obj锁之后，获取obj锁之后才能继续执行！
 
 ##5.挂起(suspend)和继续（resume）
 
-- 被挂起的线程，一定要等resume(）操作后才能继续制定
+- 被挂起的线程，一定要等resume()操作后才能继续制定
 - 不推荐使用suspend去挂起线程，因为suspend并不会去释放任何锁资源。此时，其他任何线程想要访问被他暂用的锁时，都会被牵连。可能导致死锁
-- 如果resume( )操作意外地在suspend( )之前就执行了，那么被挂起的线程可能很难有机会被继续执行。并且，更严重的是，它所占用的锁不会被释放。而且对于被挂起的线程，从它的线程状态来看，还是RUNNABLE的。
+- 如果resume()操作意外地在suspend()之前就执行了，那么被挂起的线程可能很难有机会被继续执行。并且，更严重的是，它所占用的锁不会被释放。而且对于被挂起的线程，从它的线程状态来看，还是RUNNABLE的。
 
 ```java
 public class BadSuspend {
@@ -292,7 +293,7 @@ public class GoodSuspend {
 - 很多时候，一个线程的输入可能非常依赖于另外一个或者多个线程的输出。此时，这个线程就需要等待依赖线程执行完毕，才能继续执行。
 
 ```java
-public final void join()throws InterruptedException
+public final void join() throws InterruptedException
 
 public final synchronized void join （long mills）throws InterruptedException
 ```
