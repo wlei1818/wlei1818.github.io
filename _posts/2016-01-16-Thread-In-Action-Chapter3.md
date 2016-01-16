@@ -2,7 +2,7 @@
 layout: post
 title: 《Java高并发程序设计》Java并法包
 categories: [多线程]
-description: Thread
+description: Thread,多线程
 keywords: Java, 多线程，Thread
 autotoc: true
 ---
