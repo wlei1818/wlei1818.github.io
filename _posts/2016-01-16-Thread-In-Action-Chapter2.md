@@ -183,11 +183,11 @@ public class WaitAndNotify {
 
 *打印信息：*
 ```java
-1452694743902：T1 Started！  
-1452694743902：T1 wait for object !  
-1452694743902：T2 start,notify one thread   
-1452694743902：T2 end   
-1452694745902：T1 end ！   
+1452694743902：T1 Started！</br>
+1452694743902：T1 wait for object ! </br>
+1452694743902：T2 start,notify one thread </br>  
+1452694743902：T2 end </br>
+1452694745902：T1 end ！</br>   
 ```
 
 - 可以发现，T1线程由于obj的wait方法后阻塞，T2线程nofity后，将T2线程sleep2秒，以便看到效果。 说明T1必须等T2释放obj锁之后，获取obj锁之后才能继续执行！
@@ -290,8 +290,9 @@ public class GoodSuspend {
 ##6.等待线程结束（join）和谦让（yield）
 
 - 很多时候，一个线程的输入可能非常依赖于另外一个或者多个线程的输出。此时，这个线程就需要等待依赖线程执行完毕，才能继续执行。
+
 ```java
-public final void join( )throws InterruptedException
+public final void join()throws InterruptedException
 
 public final synchronized void join （long mills）throws InterruptedException
 ```
@@ -317,10 +318,10 @@ public class JoinMain {
 }  
 ```
 
-这里如果不使用join( ）方法，可能得到的是0或者很小的值，因为at线程还来不及执行，就被主线程打印出来i了。
-而用了join（）方法之后，就表明主线程愿意等待at线程执行完毕后再打印。
+这里如果不使用join()方法，可能得到的是0或者很小的值，因为at线程还来不及执行，就被主线程打印出来i了。
+而用了join()方法之后，就表明主线程愿意等待at线程执行完毕后再打印。
 
-- join(）方法的核心源码实现：其实是调用wait方法
+- join()方法的核心源码实现：其实是调用wait方法
 - Thread.yield ：它会使当前线程让出CPU。但是让出后，还是会继续进行CPU的资源争夺。
 
 ##7.volatile和Java内存模型
@@ -352,8 +353,8 @@ public class NoVisibility {
 }  
 ```
 
-在JVM server模式下，ReaderThread线程无法看到主线程中的修改，导致ReaderThread永远无法退出；这就是典型的可见性问题。
-我们只要使用volatile来声明这个变量，那么就可以解决这个问题。
+在JVM server模式下，ReaderThread线程无法看到主线程中的修改，导致ReaderThread**永远无法退出**；这就是典型的可见性问题。
+我们只要使用**volatile**来声明这个变量，那么就可以解决这个问题。
 
 ##8.线程组
 
@@ -408,7 +409,7 @@ public class DaemonDemo {
 }  
 ```
 
-- setDaemon(true)必须在start之前。否则会报错：java.lang.IllegalThreadStateException
+- setDaemon(true)必须在start之前。否则会报错：*java.lang.IllegalThreadStateException*
 - 由于t被设置为守护线程，因此系统中只有主线程main为用户线程，因此在main线程休眠2秒钟后退出时，整个程序也随之退出。但是如果不把t设置为守护现场，main线程结束后，t线程还是会不断的打印。
 
 ##10.线程优先级
