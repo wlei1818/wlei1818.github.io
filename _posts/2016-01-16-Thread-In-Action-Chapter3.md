@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 线程的基本操作
+title: Java并法包
 categories: [Java,多线程]
 description: Thread
 keywords: Java, 多线程，Thread
