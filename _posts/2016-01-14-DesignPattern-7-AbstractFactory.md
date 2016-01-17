@@ -27,3 +27,27 @@ autotoc: true
 ![](/images/posts/designpattern/AbstractFactory-1.png)
 
 ![](/images/posts/designpattern/AbstractFactory-2.png)
+
+![](/images/posts/designpattern/AbstractFactory-3.png)
+
+- 从某种意义上看，抽象工厂其实是一个产品系列，或者是产品簇；
+ 
+- AbstractFactory在Java中通常被实现成接口；
+ 
+- AbstractFactory定义了创建产品所需要的接口，具体的实现是在实现类里面，通常在实现类里面需要多种更具体的实现。所以AbstractFactory定义的创建产品的方法可以看成是工厂方法，而这些工厂方法的具体实现就延迟到了具体的工厂里面，也就是说使用工厂方法实现抽象工厂。
+
+![](/images/posts/designpattern/AbstractFactory-4.png)
+
+![](/images/posts/designpattern/AbstractFactory-5.png)
+
+![](/images/posts/designpattern/AbstractFactory-6.png)
+
+## 抽象工厂模式的本质
+
+**选择产品簇的实现**<br/>
+ 
+1、工厂方法是选择单个产品的实现。虽然一个类里面可以有多个工厂方法，但是这些方法之间一般是没有联系的，即使看起来像有联系抽象工厂着重的就是为一个产品簇选择实现，定义在抽象工厂里面的方法通常是有联系的，它们都是产品的某一部分或者是相互依赖的。如果抽象工厂里面只定义一个方法，直接创建产品，那就退化成工厂方法了。
+
+![](/images/posts/designpattern/AbstractFactory-7.png)
+
+![](/images/posts/designpattern/AbstractFactory-8.png)
