@@ -18,7 +18,7 @@ autotoc: true
    
 ##二、代码实战
 
-###1.不使用生成器模式写法
+###不使用生成器模式写法
 
 ```java
 package Builder.one;
@@ -167,8 +167,9 @@ public class ExportToTxt {
 }
 ```
 
-```java
 生成XML的方法
+
+```java
 package Builder.one;
 import java.util.Collection;
 import java.util.Map;
@@ -448,6 +449,7 @@ public class Director {
 ```
 
 **最终调用：**
+
 ```java
 // 输出到文本
         TxtBuilder txtbuilder = new TxtBuilder();
