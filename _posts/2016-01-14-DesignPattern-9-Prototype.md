@@ -350,6 +350,7 @@ public class OrderBusiness {
 ```
 
 使用Java原生的clone方法来实现原型模式：
+
 - 接口中不再定义克隆方法，而是由实现类去实现Java的克隆接口：
 
 ```java
