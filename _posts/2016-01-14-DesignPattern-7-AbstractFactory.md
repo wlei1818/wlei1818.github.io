@@ -3,7 +3,7 @@ layout: post
 title: 《研磨设计模式》抽象工厂模式-AbstractFactory
 categories: [设计模式]
 description: 设计模式|抽象工厂模式
-keywords: 设计模式
+keywords: 设计模式,抽象工厂
 autotoc: true
 ---
 

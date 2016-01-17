@@ -3,7 +3,7 @@ layout: post
 title: 《研磨设计模式》外观模式-Facade
 categories: [设计模式]
 description: 设计模式|外观模式
-keywords: 设计模式
+keywords: 设计模式,外观
 autotoc: true
 ---
 
