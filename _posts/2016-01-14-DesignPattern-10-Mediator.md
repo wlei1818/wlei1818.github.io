@@ -344,8 +344,6 @@ public class DepUserMediatorImpl {
 
 ```
 
-```java
-
 客户端调用：
 
 ```java
