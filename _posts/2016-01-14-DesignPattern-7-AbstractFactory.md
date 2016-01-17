@@ -20,6 +20,10 @@ autotoc: true
 3. 案例：组装电脑
  
 4. 与工厂方法模式、简单工厂方法的区别：<br/>
-    *前者只关注单个产品对象的创建，比如创建CPU的工厂方法，就只负责创建CPU，创建主板的工厂方法，就只负责创建主板。*
+    **前者只关注单个产品对象的创建，比如创建CPU的工厂方法，就只负责创建CPU，创建主板的工厂方法，就只负责创建主板。**
  
- 5.抽象工厂的模式和结构说明
+5. 抽象工厂的模式和结构说明
+
+![](/images/posts/designpattern/AbstractFactory-1.png)
+
+![](/images/posts/designpattern/AbstractFactory-2.png)
