@@ -97,9 +97,6 @@ ConcreteMediator：中介者具体实现类
 
 ```java
 
-/**
- * 
- */
 package Mediator.one;
 /**
  * 具体的中介者实现
