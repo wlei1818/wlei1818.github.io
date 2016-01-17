@@ -452,13 +452,13 @@ public class Director {
 
 ```java
 // 输出到文本
-        TxtBuilder txtbuilder = new TxtBuilder();
-        Director director1 = new Director(txtbuilder);
-        director1.construct(ehm, mapData, efm);
-        // 输出到XML
-        XmlBuilder xmlBuilder = new XmlBuilder();
-        Director director2 = new Director(xmlBuilder);
-        director2.construct(ehm, mapData, efm);  
+TxtBuilder txtbuilder = new TxtBuilder();
+Director director1 = new Director(txtbuilder);
+director1.construct(ehm, mapData, efm);
+// 输出到XML
+XmlBuilder xmlBuilder = new XmlBuilder();
+Director director2 = new Director(xmlBuilder);
+irector2.construct(ehm, mapData, efm);  
 ```
 
 
