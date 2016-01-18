@@ -121,9 +121,8 @@ defaults:
 # ---------------- #
 #      Datas       #
 # ---------------- #
-skill_software_keywords: [Java, C++, Python, Design Patterns]
-skill_mobile_app_keywords: [Android, Reverse Engineering]
-skill_windows_keywords: [Win32 SDK, DuiLib, WTL, COM]
+skill_software_keywords: [Java, Python, Design Patterns]
+skill_database_app_keywords: [Oracle,MySQL]
 popular_repos: ['chinese-copywriting-guidelines','android-reverse-engineering', 'csdncommenter', 'sunailian.github.io', 'vim-markdown-toc']
 contribute_repos: ['sparanoid/chinese-copywriting-guidelines', 'waylife/RentCrawer']
 
