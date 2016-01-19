@@ -14,7 +14,7 @@ comments: true
 
 ## 一、Resource接口进行资源的访问
 
-![](/images/posts/springspring-chapter3-1.jpg)
+![](/images/posts/spring/spring-chapter3-1.jpg)
 
 **包含的方法：**
 
@@ -67,7 +67,7 @@ public class EncodedResourceExample {
 
 ## 二、资源加载器
 
-![](/images/posts/springspring-chapter3-2.jpg)
+![](/images/posts/spring/spring-chapter3-2.jpg)
 
 ```java
 public class PatternResolverTest {
@@ -90,7 +90,7 @@ public class PatternResolverTest {
 
 ## 三、BeanFactory
 
-![](/images/posts/springspring-chapter3-3.jpg)
+![](/images/posts/spring/spring-chapter3-3.jpg)
 
 BeanFactory启动IoC容器时，不会初始化配置文件中定义的bean，会在第一次调用时初始化；
 
@@ -115,11 +115,11 @@ ApplicationContext在初始化应用上下文时就实例化所有单实例的be
 
 ## 四、Bean的生命周期
 
-![](/images/posts/springspring-chapter3-5.jpg)
+![](/images/posts/spring/spring-chapter3-5.jpg)
 
 ## 五、ApplicationContext中Bean的生命周期
 
-![](/images/posts/springspring-chapter3-6.jpg)
+![](/images/posts/spring/spring-chapter3-6.jpg)
 
 **ApplicationContext**与 **BeanFactory** 最大的一处不同在于：
 
