@@ -421,9 +421,9 @@ ThrowsAdvice只是一个标识接口，没有定义任何方法。必须采用�
 void afterThrowing([Method method,Object[]args,Object target],Throwable);
 ```
 
------方法名必须为afterThrowing；
+- 方法名必须为afterThrowing；
 
------[Method method,Object[]args,Object target]为可选参数，要不全部提供要不全部不提供；
+- [Method method,Object[]args,Object target]为可选参数，要不全部提供要不全部不提供；
 
 ```java
 /**
@@ -710,6 +710,8 @@ public class GreetingDynamicPointcut extends DynamicMethodMatcherPointcut {
 }  
 ```
 
-由于动态切点检查会对性能造成很大的影响，尽量避免在运行时每次都对目标类的各个方法进行动态检查。Spring采用这样的机制：在创建代理时对目标类的每个连接点使用静态切点检查，如果仅通过静态切点检查就可以知道连接点是不匹配的，则在运行时就不再进行动态检查了；如果静态切点检查是匹配的，在运行时才进行动态切点检查；
+由于动态切点检查会对性能造成很大的影响，尽量避免在运行时每次都对目标类的各个方法进行动态检查。
+
+Spring采用这样的机制：*在创建代理时对目标类的每个连接点使用静态切点检查，如果仅通过静态切点检查就可以知道连接点是不匹配的，则在运行时就不再进行动态检查了；如果静态切点检查是匹配的，在运行时才进行动态切点检查；*
    
-所以在定义动态切点时，切勿忘记同时覆盖getClassFilter()和matches(Method method,Class clazz),通过静态切点检查排除大部分方法；
+所以在定义动态切点时，切勿忘记同时覆盖 *getClassFilter()* 和 *matches(Method method,Class clazz)*,通过静态切点检查排除大部分方法；
