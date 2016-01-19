@@ -96,7 +96,8 @@ facebook_username: mzlogin
 weibo_username: sunangie@126.com
 zhihu_username: sunangie@126.com
 twitter_username: mzlogin
-changyan: sunangie
+#changyan: sunangie
+changyan: false
 
 # ---------------- #
 #     Defaults     #
