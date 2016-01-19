@@ -340,6 +340,6 @@ public class ReentrantConditionLock implements Runnable {
 
 signal()方法之后，一般要释放相关的锁，谦让给被唤醒的线程，让它可以继续执行。
 
-ArrayBlockingQueue就用到了Condition。
+**ArrayBlockingQueue**就用到了**Condition**。
 
 
