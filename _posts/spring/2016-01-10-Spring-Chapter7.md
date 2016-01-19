@@ -45,6 +45,9 @@ public class NaviWaiter implements Waiter {
         System.out.println(name + "有什么需要服务的吗？");
     }
 }  
+```
+
+```java
 /**
  * 基于@AepectJ的切面
  * 
