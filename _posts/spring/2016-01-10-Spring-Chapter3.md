@@ -22,7 +22,7 @@ comments: true
 Boolean exists();
 boolean isOpen();
 URL getURL();
-fILE getFile();
+FILE getFile();
 InputStream getInputStream();
 ```
 
@@ -62,7 +62,9 @@ public class EncodedResourceExample {
 ```
 
 2、classpath
+
 **classpath**:从根路径加载资源，也可以在jar包或者zip包中；如果存在多个，只会找第一个
+
 **classpath***：会从多个文件中去找；
 
 ## 二、资源加载器
@@ -96,7 +98,7 @@ BeanFactory启动IoC容器时，不会初始化配置文件中定义的bean，�
 
 ## 三、ApplicationContext
 
-![](/images/posts/springspring-chapter3-4.jpg)
+![](/images/posts/spring/spring-chapter3-4.jpg)
 
 ```java
 public class ApplicationContextTest {
@@ -124,4 +126,4 @@ ApplicationContext在初始化应用上下文时就实例化所有单实例的be
 **ApplicationContext**与 **BeanFactory** 最大的一处不同在于：
 
 - 前者利用Java的反射机制自动识别出配置文件中定义的BeanPostProcessor、InstantiationAwareBeanPostProcessor和BeanFactoryPostProcessor，并自动将它们注册到应用上下文中。
-- 而后者需要在代码中通过手工调用addBeanPostProcessor（）方法进行注册
+- 而后者需要在代码中通过手工调用addBeanPostProcessor()方法进行注册
