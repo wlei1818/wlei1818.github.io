@@ -5,6 +5,7 @@ categories: [设计模式]
 description: 设计模式|模板方法模式
 keywords: 设计模式,模板,Template
 autotoc: true
+comments: true
 ---
 
 本文是《研磨设计模式》第十六章节学习笔记。

@@ -5,6 +5,7 @@ categories: [多线程]
 description: Java，Thread
 keywords: Java, 多线程，Thread
 autotoc: true
+comments: true
 ---
 本文是《Java高并发程序设计》第二章节学习笔记。
 

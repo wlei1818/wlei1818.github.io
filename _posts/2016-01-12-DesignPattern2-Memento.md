@@ -5,6 +5,7 @@ categories: [设计模式]
 description: 设计模式之禅|备忘录模式
 keywords: 设计模式
 autotoc: true
+comments: true
 ---
 
 本文是《设计模式之禅》第二十四章节学习笔记。

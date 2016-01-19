@@ -5,6 +5,7 @@ categories: [设计模式]
 description: 设计模式之禅|责任链方法
 keywords: 设计模式
 autotoc: true
+comments: true
 ---
 
 本文是《设计模式之禅》第十六章节学习笔记。

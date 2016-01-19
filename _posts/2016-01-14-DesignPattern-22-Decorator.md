@@ -5,6 +5,7 @@ categories: [设计模式]
 description: 设计模式|装饰器模式
 keywords: 设计模式,装饰器,Decorator
 autotoc: true
+comments: true
 ---
 
 本文是《研磨设计模式》第二十二章节学习笔记。

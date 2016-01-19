@@ -5,6 +5,7 @@ categories: [设计模式]
 description: 设计模式|生成器模式
 keywords: 设计模式,生成器,Builder
 autotoc: true
+comments: true
 ---
 
 本文是《研磨设计模式》第八章节学习笔记。

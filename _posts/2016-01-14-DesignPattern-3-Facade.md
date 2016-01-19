@@ -5,6 +5,7 @@ categories: [设计模式]
 description: 设计模式|外观模式
 keywords: 设计模式,外观
 autotoc: true
+comments: true
 ---
 
 本文是《研磨设计模式》第三章节学习笔记。

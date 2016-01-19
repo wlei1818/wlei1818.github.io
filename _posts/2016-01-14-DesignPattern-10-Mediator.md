@@ -5,6 +5,7 @@ categories: [设计模式]
 description: 设计模式|中介者模式
 keywords: 设计模式,中介者,Mediator
 autotoc: true
+comments: true
 ---
 
 本文是《研磨设计模式》第十章节学习笔记。

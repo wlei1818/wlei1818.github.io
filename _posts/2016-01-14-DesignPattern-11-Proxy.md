@@ -5,6 +5,7 @@ categories: [设计模式]
 description: 设计模式|代理模式
 keywords: 设计模式,代理,Proxy
 autotoc: true
+comments: true
 ---
 
 本文是《研磨设计模式》第十一章节学习笔记。

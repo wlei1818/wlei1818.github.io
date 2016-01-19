@@ -5,6 +5,7 @@ categories: [设计模式]
 description: 设计模式之禅|访问者方法
 keywords: 设计模式
 autotoc: true
+comments: true
 ---
 
 本文是《设计模式之禅》第二十五章节学习笔记。
