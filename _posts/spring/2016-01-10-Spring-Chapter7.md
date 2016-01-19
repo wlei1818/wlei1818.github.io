@@ -96,9 +96,9 @@ public class AspectJProxyTest {
 
 ## 三、切点函数
 
-![](/images/posts/spring/spring-chapter7-1.jpg)
+![](http://7xptxy.com1.z0.glb.clouddn.com/spring-chapter7-1.jpg)
 
-![](/images/posts/spring/spring-chapter7-2.jpg)
+![](http://7xptxy.com1.z0.glb.clouddn.com/spring-chapter7-2.jpg)
 
 **AspectJ通配符**
 
@@ -209,6 +209,6 @@ public class AdviceMethods {
 
 ## 七、切面总结
 
-![](/images/posts/spring/spring-chapter7-3.jpg)
+![](http://7xptxy.com1.z0.glb.clouddn.com/spring-chapter7-3.jpg)
 
 
