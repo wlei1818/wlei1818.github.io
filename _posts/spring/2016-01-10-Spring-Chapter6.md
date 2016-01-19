@@ -266,7 +266,7 @@ CGLib所创建的动态代理对象的性能比JDK创建的性能高不少，但
 
 增强类型：
 
-![](/images/posts/spring/spring-chapter6-1.jpg)
+![](http://7xptxy.com1.z0.glb.clouddn.com/spring-chapter6-1.jpg)
 
 - 前置增强：BeforeAdvice.表示在目标方法执行前实施增强；
 - 后置增强：AfterReturningAdvice：目标方法执行后实施增强；
@@ -543,7 +543,7 @@ Spring支持两种方法匹配器：**静态方法匹配器**、**动态方法�
 
 - **IntroductionAdvisor**：引介切面。使用ClassFilter进行定义
 
-![](/images/posts/spring/spring-chapter6-2.jpg)
+![](http://7xptxy.com1.z0.glb.clouddn.com/spring-chapter6-2.jpg)
 
 **PointcutAdvisor具体的实现类：**
 
@@ -645,10 +645,10 @@ public class GreetingBeforeAdvice implements MethodBeforeAdvice {
        p:target-ref="waiterTarget"/>  
 ```
 
-![](/images/posts/spring/spring-chapter6-3.jpg)
+![](http://7xptxy.com1.z0.glb.clouddn.com/spring-chapter6-3.jpg)
 
 
-![](/images/posts/spring/spring-chapter6-3.jpg)
+![](http://7xptxy.com1.z0.glb.clouddn.com/spring-chapter6-4.jpg)
 
 
 **动态切面**
