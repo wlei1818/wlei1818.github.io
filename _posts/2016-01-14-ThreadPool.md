@@ -12,7 +12,8 @@ comments: true
 
 在前面介绍JUC的文章中，提到了关于线程池Execotors的创建介绍，在文章：《java之JUC系列-外部Tools》中第一部分有详细的说明，请参阅；
 
-文章中其实说明了外部的使用方式，但是没有说内部是如何实现的，为了加深对实现的理解，在使用中可以放心，我们这里将做源码解析以及反馈到原理上，**Executors**工具可以创建普通的线程池以及schedule调度任务的调度池，其实两者实现上还是有一些区别，但是理解了ThreadPoolExecutor，在看ScheduledThreadPoolExecutor就非常轻松了，后面的文章中也会专门介绍这块，但是需要先看这篇文章。
+文章中其实说明了外部的使用方式，但是没有说内部是如何实现的，为了加深对实现的理解，在使用中可以放心，我们这里将做源码解析以及反馈到原理上。
+**Executors**工具可以创建普通的线程池以及schedule调度任务的调度池，其实两者实现上还是有一些区别，但是理解了ThreadPoolExecutor，在看ScheduledThreadPoolExecutor就非常轻松了，后面的文章中也会专门介绍这块，但是需要先看这篇文章。
 
 使用Executors最常用的莫过于是使用：**Executors.newFixedThreadPool(int)** 这个方法，因为它既可以限制数量，而且线程用完后不会一直被cache住；那么就通过它来看看源码，回过头来再看其他构造方法的区别：
 
@@ -60,6 +61,7 @@ public ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveT
 **threadFactory**：是构造Thread的方法，你可以自己去包装和传递，主要实现newThread方法即可；
 
 **handler**：也就是参数maximumPoolSize达到后丢弃处理的方法，java提供了5种丢弃处理的方法，当然你也可以自己弄，主要是要实现接口：RejectedExecutionHandler中的方法：
+
 ```java
 public void rejectedExecution(Runnabler, ThreadPoolExecutor e)
 ```
@@ -76,6 +78,7 @@ java默认的是使用：**AbortPolicy**，他的作用是当出现这中情况�
 来看看execute最为核心的方法吧:
 
 源码段2：
+
 ```java
 public void execute(Runnable command) {
     if (command == null)
@@ -137,6 +140,7 @@ if (runState == RUNNING && workQueue.offer(command)) {
 第一个if，也就是当当前状态为running的时候，就会去执行workQueue.offer(command)，这个workQueue其实就是一个BlockingQueue，offer()操作就是在队列的尾部写入一个对象，此时写入的对象为线程的对象而已；所以你可以认为只有线程池在RUNNING状态，才会在队列尾部插入数据，否则就执行else if，其实else if可以看出是要做一个是否大于MaximumPoolSize的判定，如果大于这个值，就会做reject的操作，关于reject的说明，我们在【源码段1】的解释中已经非常明确的说明，这里可以简单看下源码，以应征结果：
 
 源码段5：
+
 ```java
     private boolean addIfUnderMaximumPoolSize(Runnable firstTask) {
         Thread t = null;
@@ -163,9 +167,11 @@ void reject(Runnable command) {
 
 再回头来看下【代码段4】中进入到等待队列后的操作：
 
+```java
 if (runState != RUNNING || poolSize == 0)
 
     ensureQueuedTaskHandled(command);
+```
 
 这段代码是要在线程池运行状态不是RUNNING或poolSize == 0才会调用，他是干啥呢？
 
@@ -207,6 +213,7 @@ private Thread addThread(Runnable firstTask) {
 我们主要关心Worker是干什么的，因为这个threadFactory对我们用途不大，只是做了Thread的命名处理；而Worker你会发现它的定义也是一个Runnable，外部开始在代码段中发现了调用哪个这个Worker的start()方法，也就是线程的启动方法，其实也就是调用了Worker的run()方法，那么我们重点要关心run方法是如何处理的
 
 源码段7：
+
 ```java
 public void run() {
      try {
