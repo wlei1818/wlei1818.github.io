@@ -287,3 +287,24 @@ public class FairLock implements Runnable {
 
 ##二、重入锁的好搭档：Condition条件
 
+wait()和notify()是跟synchronized搭配使用。而Condition是与重入锁搭配使用。利用Condition对象，可以让线程在合适的时间等待，或者在某一个特定的时刻得到通知，继续执行。
+
+**Condition接口的主要方法：**
+
+```java
+void await() throws InterruptedException;
+void awaitUninterruptibly();
+long awaitNanos(long nanosTimeout) throws InterruptedException;
+boolean await(long time, TimeUnit unit) throws InterruptedException;
+boolean awaitUntil(Date deadline) throws InterruptedException;
+void signal();
+void signalAll();
+```
+
+- **await()**：使当前线程等待，同时释放当前锁。当其他线程中使用 **signal()** 或者 **signalAll()** 时，线程会重新获得锁并继续执行。与Object.wait()方法很相似。
+- **awaitUninterruptibly()**：与await()基本相同，但是不会在等待过程中响应中断；
+- **signal()**：与notify()方法类似，用于唤醒一个在等待中的线程。
+
+
+
+
