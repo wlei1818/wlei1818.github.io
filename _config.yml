@@ -89,7 +89,7 @@ collections:
 # ---------------- #
 #      Socials     #
 # ---------------- #
-duoshuo_username: mazhuang
+duoshuo_username: sunhanbin
 github_username: sunailian
 douban_username: sunailian
 facebook_username: mzlogin
@@ -125,4 +125,12 @@ skill_software_keywords: [Java, Python, Design Patterns]
 skill_database_app_keywords: [Oracle,MySQL]
 popular_repos: ['chinese-copywriting-guidelines','android-reverse-engineering', 'csdncommenter', 'sunailian.github.io', 'vim-markdown-toc']
 contribute_repos: ['sparanoid/chinese-copywriting-guidelines', 'waylife/RentCrawer']
+
+# ---------------- #
+#      Comments    #
+# ---------------- #
+comments :
+    provider : duoshuo
+    duoshuo : 
+      short_name : sunhanbin
 
