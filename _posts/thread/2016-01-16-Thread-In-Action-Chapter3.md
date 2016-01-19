@@ -305,6 +305,41 @@ void signalAll();
 - **awaitUninterruptibly()**：与await()基本相同，但是不会在等待过程中响应中断；
 - **signal()**：与notify()方法类似，用于唤醒一个在等待中的线程。
 
+```java
+public class ReentrantConditionLock implements Runnable {
 
+    public static ReentrantLock lock = new ReentrantLock();
+    public static Condition condition = lock.newCondition();
+
+    @Override
+    public void run() {
+        try {
+            lock.lock();
+            condition.await();
+            System.out.println("Thread is going on");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void main(String[] args) throws InterruptedException {
+        ReentrantConditionLock tc = new ReentrantConditionLock();
+        Thread t1 = new Thread(tc);
+        t1.start();
+        Thread.sleep(2000);
+        // 通知线程1继续执行
+        lock.lock();
+        condition.signal();
+        lock.unlock();
+    }
+
+}
+```
+
+signal()方法之后，一般要释放相关的锁，谦让给被唤醒的线程，让它可以继续执行。
+
+ArrayBlockingQueue就用到了Condition。
 
 
