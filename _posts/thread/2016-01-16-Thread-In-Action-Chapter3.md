@@ -343,3 +343,194 @@ signal()方法之后，一般要释放相关的锁，谦让给被唤醒的线程
 **ArrayBlockingQueue**就用到了**Condition**。
 
 
+## 三、允许多个线程同时访问：Semaphore
+
+无论是内部锁synchronized还是重入锁RenntrantLock，一次都只允许一个线程访问一个资源。Semaphore可以指定多个线程，同时访问某一个资源。
+
+Semaphore提供2个构造函数：
+
+```java
+ public Semaphore(int permits)
+
+public Semaphore(int permits, boolean fair)  //第二个参数指定是否公平
+```
+
+信号量的主要方法有：
+
+```java
+public void acquire() throws InterruptedException
+public void acquireUninterruptibly() 
+public boolean tryAcquire() 
+public boolean tryAcquire(long timeout, TimeUnit unit)
+public void release() 
+```
+
+- acquire()：尝试获得一个准入的许可。若无法获得，则线程会等待，直到有线程释放一个许可或者当前线程被中断；
+- acquireUninterruptibly() ：与acquire()类似，但是不响应中断；
+- tryAcquire()：尝试获得一个许可，直接返回布尔值，不会进行等待，立即返回；
+- release()：释放一个许可
+
+信号量代码示例：
+
+```java
+public class SemaDemo implements Runnable {
+
+    final Semaphore semp = new Semaphore(5);
+
+    public void run() {
+
+        try {
+            semp.acquire();
+            // 以下是临界区
+            // 模拟耗时操作
+            Thread.sleep(2000);
+            System.out.println(Thread.currentThread().getId() + " done");
+            semp.release();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void main(String[] args) {
+        ExecutorService exec = Executors.newFixedThreadPool(20);
+        final SemaDemo demo = new SemaDemo();
+        for (int i = 0; i < 20; i++) {
+            exec.submit(demo);
+        }
+
+    }
+
+}
+
+```
+
+以上代码表明同时有5个线程可以进入临界区。打印结果是以5个线程为单位输出。
+使用了acquire()后必须使用release()释放。如果不幸发生了信号量的泄露，即获取了但没释放，那么进入临界区的线程就会越来越少，直到所有线程都不可访问。
+
+## ReadWriteLock读写锁
+
+如果使用重入锁或者内部锁，则理论上所有读之间、读与写之间。写和写之间都是串行操作。读写锁使得读写可以分离。
+
+**读写锁的访问约束情况
+
+- 读-读不互斥：读读之间不阻塞
+- 读-写互斥：读阻塞写，写也会阻塞读
+- 写-写互斥：写写阻塞
+
+如果在系统中，读操作次数远远大于写操作，那么读写锁可以发挥最大功效，提升系统的性能。
+
+```java
+public class ReadWriteLockDemo {
+
+    private static Lock lock = new ReentrantLock();
+    private static ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private static Lock readLock = readWriteLock.readLock();
+    private static Lock writeLock = readWriteLock.writeLock();
+    private int value;
+
+    public Object handleRead(Lock lock) {
+
+        try {
+            lock.lock();// 模拟读操作
+            Thread.sleep(1000);// 读操作越耗时,读写锁的优势就越明显
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+        return value;
+    }
+
+    public void handleWrite(Lock lock, int index) {
+        try {
+            lock.lock();
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+        value = index;
+    }
+
+    public static void main(String[] args) {
+        final ReadWriteLockDemo demo = new ReadWriteLockDemo();
+        Runnable readRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                demo.handleRead(readLock);
+                // demo.handleRead(lock);
+            }
+        };
+
+        Runnable writeRunnable = new Runnable() {
+            @Override
+            public void run() {
+                demo.handleWrite(writeLock, new Random().nextInt());
+                //demo.handleWrite(lock, new Random().nextInt());
+            }
+        };
+
+        // 读线程
+        for (int i = 0; i < 18; i++) {
+            new Thread(readRunnable).start();
+        }
+
+        // 写线程
+        for (int i = 18; i < 20; i++) {
+            new Thread(writeRunnable).start();
+        }
+    }
+}
+```
+上述代码中，如果使用可重入锁，那么所有的读写线程必须相互等待；而使用读写锁的话，所有的读线程都
+能并行，而写会阻塞读。
+
+##倒计时器：CountDownLatch
+
+这个工具通常用来控制线程等待，它可以让某一个线程等待直到倒计时结束，再开始执行。
+典型的场景就是火箭发射，使用CountDownLatch使得点火线程在所有检查工作做完后再执行。
+
+```java
+public CountDownLatch(int count)  //计时器的计数个数
+```
+
+代码演示：
+
+```java
+public class CountDownLatchDemo implements Runnable {
+
+    public static final CountDownLatch end = new CountDownLatch(10);
+    public static final CountDownLatchDemo demo = new CountDownLatchDemo();
+
+    @Override
+    public void run() {
+        // 模拟检查任务
+        try {
+            Thread.sleep(new Random().nextInt(10) * 1000);
+            System.out.println("finish check");
+            end.countDown();// 该项任务检查完成，计数器减一
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        ExecutorService exec = Executors.newFixedThreadPool(10);
+        for (int i = 0; i < 10; i++) {
+            exec.submit(demo);
+        }
+        // 等待检查任务
+        end.await();
+        // 发射火箭
+        System.out.println("Fire");
+        exec.shutdown();
+    }
+
+}
+```
+使用countDown()方法说明该任务以及完成，计数器可以减一。await() 方法要求主线程等待所有10个任务检全部查完成。
+主线程在CountDownLatch上等待，当所有的检查任务都完成后，主线程方能继续执行。
