@@ -534,3 +534,15 @@ public class CountDownLatchDemo implements Runnable {
 ```
 使用countDown()方法说明该任务以及完成，计数器可以减一。await() 方法要求主线程等待所有10个任务检全部查完成。
 主线程在CountDownLatch上等待，当所有的检查任务都完成后，主线程方能继续执行。
+
+## 六、循环栅栏：CyclicBarrier
+
+CyclicBarrier与CountDownLatch类似，但是比CountDownLatch强大。CyclicBarrier可接收一个参数作为barrierAction。所谓barrierAction就是当计数器**一次计数**完成后，系统就会执行的动作。
+
+```java
+public CyclicBarrier(int parties, Runnable barrierAction) 
+```
+
+代码演示：
+
+
