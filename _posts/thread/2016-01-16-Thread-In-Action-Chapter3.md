@@ -537,12 +537,89 @@ public class CountDownLatchDemo implements Runnable {
 
 ## 六、循环栅栏：CyclicBarrier
 
-CyclicBarrier与CountDownLatch类似，但是比CountDownLatch强大。CyclicBarrier可接收一个参数作为barrierAction。所谓barrierAction就是当计数器**一次计数**完成后，系统就会执行的动作。
+CyclicBarrier与CountDownLatch类似，但是比CountDownLatch强大。栅栏的意思就是用来阻止线程继续执行，要求线程在栅栏处等待。CyclicBarrier表明这个计数器可以反复使用。到数后计数器就会归零。
+
+CyclicBarrier可接收一个参数作为barrierAction。所谓barrierAction就是当计数器**一次计数**完成后，系统就会执行的动作。
 
 ```java
 public CyclicBarrier(int parties, Runnable barrierAction) 
 ```
 
 代码演示：
+
+```java
+public class CyclicBarrierDemo {
+
+    public static class Soldier implements Runnable {
+        private String solider;
+        private CyclicBarrier cylic;
+
+        public Soldier(String solider, CyclicBarrier cylic) {
+            this.solider = solider;
+            this.cylic = cylic;
+        }
+
+        @Override
+        public void run() {
+            // 等待所有士兵到齐
+            try {
+                cylic.await();
+                doWork();
+                // 等待所有士兵完成工作
+                cylic.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (BrokenBarrierException e) {
+                e.printStackTrace();
+            }
+        }
+
+        void doWork() {
+            try {
+                Thread.sleep(Math.abs(new Random().nextInt() % 10000));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(solider + ":任务完成");
+        }
+    }
+
+    public static class BarrierRun implements Runnable {
+
+        boolean flag;
+        int N;
+
+        public BarrierRun(boolean flag, int n) {
+            super();
+            this.flag = flag;
+            N = n;
+        }
+
+        @Override
+        public void run() {
+            if (flag) {
+                System.out.println("司令:[士兵" + N + "个，任务完成！]");
+            } else {
+                System.out.println("司令:[士兵" + N + "个，集合完成！]");
+                flag = true;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        final int N = 10;
+        Thread[] soilders = new Thread[N];
+        boolean flag = false;
+        CyclicBarrier cyclic = new CyclicBarrier(N, new BarrierRun(flag, N));
+        // 设置屏障点，主要为了执行这个方法
+        System.out.println("集合队伍！");
+        for (int i = 0; i < N; i++) {
+            System.out.println("士兵" + i + "报道！");
+            soilders[i] = new Thread(new Soldier("士兵" + i, cyclic));
+        }
+    }
+
+}
+```
 
 
