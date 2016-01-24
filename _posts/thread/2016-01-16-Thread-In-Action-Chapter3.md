@@ -694,7 +694,7 @@ new Thread(new Runnable(){
 
 **实际应用中，必须对线程的数量加以控制。盲目的大量创建线程对系统的性能是有伤害的。**
 
-### 1.JDK对线程池的支持
+### 1. JDK对线程池的支持
 
 Executor框架提供对各种类型的线程池：
 
@@ -712,7 +712,7 @@ public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize)
 - newSingleThreadScheduledExecutor：返回一个ScheduledExecutorService，线程池大小为1。ScheduledExecutorService接口在ExecutorService接口上扩展了在给定时间执行某任务的功能。
 - newScheduledThreadPool：也返回一个ScheduledExecutorService对象，但线程池大小为1
 
-#### 2.ScheduledExecutorService
+### 2. ScheduledExecutorService
 
 ```java
 public ScheduledFuture<?> schedule(Runnable command,long delay, TimeUnit unit);
@@ -774,7 +774,7 @@ Rate==>>1453641364
 ```
 
 
-####3.核心线程池的内部实现
+###3. 核心线程池的内部实现
 
 Executors创建的线程池对象，内部实现均使用了**ThreadPoolExecutor**。以下是三种线程的内部实现方式：
 
@@ -833,7 +833,7 @@ public ArrayBlockingQueue(int capacity)
 - LinkedBlockingQueue：**无界的任务队列**。同上，如果当前线程数大于corePoolSize，就不继续增加线程。若后续仍有新的任务加入，而又没有空闲的线程资源，则任务进入队列等待。
 - PriorityBlockingQueue：**优先任务队列**。有界、无界都是按照先进先出算法实现，优先任务队列则增加了线程的优先顺序。
 
-####4.自定义线程创建：ThreadFactory
+###4. 自定义线程创建：ThreadFactory
 
 线程池是为了线程复用，避免线程频繁创建。但是这些最初的线程是从哪里来的呢？答案就是：**ThreadFactory**
 
@@ -843,7 +843,7 @@ ThreadFactory是一个接口，它只有一个方法用来创建线程：
 Thread newThread(Runnable r)
 ```
 
-####5.优化线程池线程数量
+###5. 优化线程池线程数量
 
 **Ncpu = CPU的数量**
 **Ucpu = 目标CPU的使用率，0<=Ucpu<=1****
@@ -865,7 +865,7 @@ Java中可以通过**System.getRuntime().availableProcessors();**获得可用的
 - BlockingQueue：阻塞队列，非常适合用于作为数据共享的通道
 - ConcurrentSkipListMap：跳表的实现。这是一个Map，使用跳表的数据结构进行快速查找
 
-
+###2.
 
 
 
