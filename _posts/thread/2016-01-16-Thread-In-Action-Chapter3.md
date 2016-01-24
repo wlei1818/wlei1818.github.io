@@ -622,4 +622,106 @@ public class CyclicBarrierDemo {
 }
 ```
 
+## 七、线程阻塞工具类：LockSupport
+
+LockSupport可以在线程内任意位置让线程阻塞。它与**suspend()**方法相比弥补了由于**resume()**在前发生，而导致线程无法继续执行的情况。与**Object.wait()**相比，它不需要获得某个对象的锁，也不会抛出**InterruptedException**.
+
+LockSupport的静态方法**park()**可以阻塞当前线程，类似的还有**parkNanos()**,**parkUntil()**等方法。它们实现了一个限时的等待。
+
+```java
+public class LockSupportDemo {
+
+	public static Object u = new Object();
+	static ChangeObjectThread t1 = new ChangeObjectThread("t1");
+	static ChangeObjectThread t2 = new ChangeObjectThread("t2");
+
+	public static class ChangeObjectThread extends Thread {
+
+		public ChangeObjectThread(String name) {
+			super.setName(name);
+		}
+
+		public void run() {
+			synchronized (u) {
+				System.out.println("in " + getName());
+				LockSupport.park();
+				if (Thread.interrupted()) {
+					System.out.println(getName() + " 被中断了!");
+				}
+			}
+			System.out.println(getName() + " 执行结束");
+		}
+	}
+
+	public static void main(String[] args) throws InterruptedException {
+		t1.start();
+		Thread.sleep(1000);
+		t2.start();
+		t1.interrupt();
+		LockSupport.unpark(t2);
+	}
+
+}
+```
+
+打印信息：
+
+```
+in t1
+t1 被中断了!
+t1 执行结束
+in t2
+t2 执行结束
+```
+
+上述代码不会用为park()方法而被永久性的挂起。这是因为LockSupport用了类似信号量的机制。为每个线程都准备了一个许可，如果许可可用，则park()立即返回，如果不可用则阻塞。
+
+**即使unpark()发生在park()之前，它也可以使得下一次的park()操作立即返回。**
+
+
+##八、线程复用：线程池
+
+一种最为简单的线程创建和回收的方法：
+
+```java
+new Thread(new Runnable(){
+	
+	public void run(){
+		//do sth
+	}
+}).start();
+```
+
+**实际应用中，必须对线程的数量加以控制。盲目的大量创建线程对系统的性能是有伤害的。**
+
+### JDK对线程池的支持
+
+Executor框架提供对各种类型的线程池：
+
+```java
+public static ExecutorService newFixedThreadPool(int nThreads)
+public static ExecutorService newSingleThreadExecutor() 
+public static ExecutorService newCachedThreadPool()
+public static ScheduledExecutorService newSingleThreadScheduledExecutor()
+public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize) 
+```
+
+- newFixedThreadPool：返回一个固定线程数量的线程池。如果没有空闲线程，则新的任务会被暂存在一个任务队列中；
+- newSingleThreadExecutor：返回只有一个线程的线程池
+- newCachedThreadPool：返回一个可调整数量的线程池。
+- newSingleThreadScheduledExecutor：返回一个ScheduledExecutorService，线程池大小为1。ScheduledExecutorService接口在ExecutorService接口上扩展了在给定时间执行某任务的功能。
+- newScheduledThreadPool：也返回一个ScheduledExecutorService对象，但线程池大小为1
+
+#### ScheduledExecutorService
+
+```java
+public ScheduledFuture<?> schedule(Runnable command,long delay, TimeUnit unit);
+public ScheduledFuture<?> scheduleAtFixedRate(Runnable command,long initialDelay,long period,TimeUnit unit);
+public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command,long initialDelay,long delay,TimeUnit unit);
+```
+**scheduleAtFixedRate**与**scheduleWithFixedDelay**两者之间有点小小的区别：
+
+![]()
+
+- scheduleAtFixedRate
 
