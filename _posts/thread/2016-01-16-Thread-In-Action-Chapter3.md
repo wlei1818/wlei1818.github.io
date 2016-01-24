@@ -694,7 +694,7 @@ new Thread(new Runnable(){
 
 **实际应用中，必须对线程的数量加以控制。盲目的大量创建线程对系统的性能是有伤害的。**
 
-### JDK对线程池的支持
+### 1.JDK对线程池的支持
 
 Executor框架提供对各种类型的线程池：
 
@@ -712,7 +712,7 @@ public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize)
 - newSingleThreadScheduledExecutor：返回一个ScheduledExecutorService，线程池大小为1。ScheduledExecutorService接口在ExecutorService接口上扩展了在给定时间执行某任务的功能。
 - newScheduledThreadPool：也返回一个ScheduledExecutorService对象，但线程池大小为1
 
-#### ScheduledExecutorService
+#### 2.ScheduledExecutorService
 
 ```java
 public ScheduledFuture<?> schedule(Runnable command,long delay, TimeUnit unit);
@@ -721,7 +721,151 @@ public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command,long initialDe
 ```
 **scheduleAtFixedRate**与**scheduleWithFixedDelay**两者之间有点小小的区别：
 
-![]()
+- scheduleAtFixedRate：任务的调度频率是一定的。它是以上个任务**开始执行时间**为起点，之后的period时间，调度下一次任务。**是根据周期和任务调度时间中取最大值执行的**
+- scheduleWithFixedDelay：是在上一个任务**结束**后，再经过delay时间进行调度。**是按照周期+调度时间为整个周期执行的**
 
-- scheduleAtFixedRate
+```java
+public class ScheduledExecutorServiceDemo {
+
+	public static void main(String[] args) {
+
+		ScheduledExecutorService ses = Executors.newScheduledThreadPool(10);
+		// 如果前面的任务没有完成，则调度也不会启动
+		ses.scheduleAtFixedRate(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(1000);
+					System.out.println("Rate==>>"+System.currentTimeMillis() / 1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}, 0, 2, TimeUnit.SECONDS);
+		
+		ses.scheduleWithFixedDelay(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(1000);
+					System.out.println("Delay==>>"+System.currentTimeMillis() / 1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}, 0, 2, TimeUnit.SECONDS);
+	}
+}
+```
+
+上面代码的打印输出：
+
+```
+Rate==>>1453641356
+Delay==>>1453641356
+Rate==>>1453641358
+Delay==>>1453641359
+Rate==>>1453641360
+Rate==>>1453641362
+Delay==>>1453641362
+Rate==>>1453641364
+```
+
+
+####3.核心线程池的内部实现
+
+Executors创建的线程池对象，内部实现均使用了**ThreadPoolExecutor**。以下是三种线程的内部实现方式：
+
+```java
+ public static ExecutorService newFixedThreadPool(int nThreads) {
+        return new ThreadPoolExecutor(nThreads, nThreads,
+                                      0L, TimeUnit.MILLISECONDS,
+                                      new LinkedBlockingQueue<Runnable>());
+ }
+
+
+public static ExecutorService newSingleThreadExecutor() {
+        return new FinalizableDelegatedExecutorService
+            (new ThreadPoolExecutor(1, 1,
+                                    0L, TimeUnit.MILLISECONDS,
+                                    new LinkedBlockingQueue<Runnable>()));
+}
+
+public static ExecutorService newCachedThreadPool() {
+        return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+                                      60L, TimeUnit.SECONDS,
+                                      new SynchronousQueue<Runnable>());
+}
+```
+
+其实都是**ThreadPoolExecutor**类的封装。看下ThreadPoolExecutor类的构造函数：
+
+```java
+  public ThreadPoolExecutor(int corePoolSize,
+                              int maximumPoolSize,
+                              long keepAliveTime,
+                              TimeUnit unit,
+                              BlockingQueue<Runnable> workQueue,
+                              RejectedExecutionHandler handler) 
+```
+
+- corePoolSize：线程池中线程数量；
+- maximumPoolSize：线程池中最大线程数量；
+- keepAliveTime：线程池线程数量超过corePoolSize时，多余的空闲线程的存活时间；
+- workQueue：即等待队列
+- threadFactory：创建线程的线程工厂，一般用默认即可
+- handler：拒绝策略。当线程太多来不及处理，如何拒绝任务。
+
+以下对**workQueue**和**handler**进行详细说明：
+
+workQueue是一个**BlockingQueue**接口，它可以分成以下几类：
+
+- SynchronousQueue：**直接提交的队列**。它没有容量，每一个插入操作都要等待一个删除操作，反之，每一个删除操作都要等待对应的插入操作。SynchronousQueue使用通常需要设置很大的maximumPoolSize，否则很容易执行拒绝策略。
+- ArrayBlockingQueue：**有界的任务队列**。它有一个构造函数
+
+```java
+public ArrayBlockingQueue(int capacity)
+```
+
+当新的任务需要执行，首先判断当前线程数是否大于corePoolSize，如果小于，则优先创建新线程。如果大于，则放入等待队列。如果等待队列满，则判断总线程数是否大于maximumPoolSize，如果大于，则执行拒绝策略。如果不大于，则创建新的进程执行任务。
+- LinkedBlockingQueue：**无界的任务队列**。同上，如果当前线程数大于corePoolSize，就不继续增加线程。若后续仍有新的任务加入，而又没有空闲的线程资源，则任务进入队列等待。
+- PriorityBlockingQueue：**优先任务队列**。有界、无界都是按照先进先出算法实现，优先任务队列则增加了线程的优先顺序。
+
+####4.自定义线程创建：ThreadFactory
+
+线程池是为了线程复用，避免线程频繁创建。但是这些最初的线程是从哪里来的呢？答案就是：**ThreadFactory**
+
+ThreadFactory是一个接口，它只有一个方法用来创建线程：
+
+```java
+Thread newThread(Runnable r)
+```
+
+####5.优化线程池线程数量
+
+**Ncpu = CPU的数量**
+**Ucpu = 目标CPU的使用率，0<=Ucpu<=1****
+**W/C = 等待时间与计算时间的比率**
+
+为保持处理器达到期望的使用率，最优的池的大小等于：
+**Nthreads = Ncpu * Ucpu *(1 + W/C)**
+
+Java中可以通过**System.getRuntime().availableProcessors();**获得可用的CPU的数量
+
+
+##九、JDK并发容器
+
+###1.并发集合工具类
+
+- ConcurrentHashMap：线程安全的高效并发的HashMap
+- CopyOnWriteArrayList：在读多写少的场合，这个List的性能远远好于Vector
+- ConcurrentLinkedQueue：高效的并发队列，使用链表实现。可以看做是线程安全的LinkedList
+- BlockingQueue：阻塞队列，非常适合用于作为数据共享的通道
+- ConcurrentSkipListMap：跳表的实现。这是一个Map，使用跳表的数据结构进行快速查找
+
+
+
+
 
