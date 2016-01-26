@@ -875,7 +875,7 @@ public static Map m = Collections.synchronizedMap(new HashMap());
 ```
 这行代码会生成一个**SynchronizedMap**，这个Map底层使用了**信号量mutex加同步锁**的机制，保证线程安全。因此性能可能并不是太好。
 
-- ConcurrentHashMap：性能更好。具体在**第四章、锁的优化及注意事项**会详细讲到
+- ConcurrentHashMap：性能更好。具体在**《第四章、锁的优化及注意事项》**会详细讲到
 
 ###3.List的线程安全
 
