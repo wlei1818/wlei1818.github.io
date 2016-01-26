@@ -845,9 +845,9 @@ Thread newThread(Runnable r)
 
 ###5. 优化线程池线程数量
 
-**Ncpu = CPU的数量**
-**Ucpu = 目标CPU的使用率，0<=Ucpu<=1****
-**W/C = 等待时间与计算时间的比率**
+**Ncpu = CPU的数量** <br/>
+**Ucpu = 目标CPU的使用率，0<=Ucpu<=1****<br/><br/>
+**W/C = 等待时间与计算时间的比率**<br/>
 
 为保持处理器达到期望的使用率，最优的池的大小等于：
 **Nthreads = Ncpu * Ucpu *(1 + W/C)**
@@ -865,7 +865,102 @@ Java中可以通过**System.getRuntime().availableProcessors();**获得可用的
 - BlockingQueue：阻塞队列，非常适合用于作为数据共享的通道
 - ConcurrentSkipListMap：跳表的实现。这是一个Map，使用跳表的数据结构进行快速查找
 
-###2.
+###2.线程安全的HashMap
 
+- 一种可行的办法产生一个线程安全的Map：
 
+```java
+public static Map m = Collections.synchronizedMap(new HashMap());
+
+```
+这行代码会生成一个SynchronizedMap，这个Map底层使用了信号量mutex加同步锁的机制，保证线程安全。因此性能可能并不是太好。
+
+- ConcurrentHashMap：性能更好。具体在**第四章、锁的优化及注意事项**会详细讲到
+
+###3.List的线程安全
+
+可以使用：
+
+```java
+public static List<String> l = Collections.synchronizedList<new LinkedList<String>>();
+```
+
+###4.高效的读写队列：深入剖析ConcurrentLinkedQueue
+
+ConcurrentLinkedQueue算是在高并发环境中性能最好的队列
+
+ConcurrentLinkedQueue作为链表，定义Node的核心代码如下：
+
+```java
+private static class Node<E> {
+        volatile E item;
+        volatile Node<E> next;
+...
+
+```
+
+- item：目标元素
+- next：当前Node的下一个元素
+
+```java
+boolean casItem(E cmp, E val) {
+    return UNSAFE.compareAndSwapObject(this, itemOffset, cmp, val);
+}
+
+void lazySetNext(Node<E> val) {
+    UNSAFE.putOrderedObject(this, nextOffset, val);
+}
+
+boolean casNext(Node<E> cmp, Node<E> val) {
+    return UNSAFE.compareAndSwapObject(this, nextOffset, cmp, val);
+}
+```
+
+- casItem：用来设置当前Node的item值，cmp是期望值，val是目标值。当当前值=期望值时，就把Node值改成目标值；
+
+ConcurrentLinkedQueue有两个重要字段：head、tail
+
+tail一般来说，我们期望tail总是为链表的末尾，但实际上，tail的更新并不是及时的，而是可能会产生拖延现象。**每次更新会跳跃2个元素**
+
+以下是添加元素的offer()方法：
+
+```java
+public boolean offer(E e) {
+        checkNotNull(e);
+        final Node<E> newNode = new Node<E>(e);
+
+        for (Node<E> t = tail, p = t;;) {
+            Node<E> q = p.next;
+            if (q == null) {
+                // p is last node
+                if (p.casNext(null, newNode)) {
+                    // Successful CAS is the linearization point
+                    // for e to become an element of this queue,
+                    // and for newNode to become "live".
+                    if (p != t) // hop two nodes at a time
+                        casTail(t, newNode);  // Failure is OK.
+                    return true;
+                }
+                // Lost CAS race to another thread; re-read next
+            }
+            else if (p == q)
+                // We have fallen off list.  If tail is unchanged, it
+                // will also be off-list, in which case we need to
+                // jump to head, from which all live nodes are always
+                // reachable.  Else the new tail is a better bet.
+                p = (t != (t = tail)) ? t : head;
+            else
+                // Check for tail updates after two hops.
+                p = (p != t && t != (t = tail)) ? t : q;
+        }
+    }
+
+```
+该方法没有任何的锁，线程安全完全由CAS操作和队列的算法保证。**具体算法解释请参看书本P126**
+
+###5. 高效读取：不变模式下的CopyOnWriteArrayList
+
+CopyOnWriteArrayList是为了在读取的情况下将性能发挥到极致。对它来说，**读取是完全不加锁的，而且：写入也不会阻塞读取操作，只有写入和写入之间需要进行同步等待**
+
+CopyOnWriteArrayList是在写入操作时，进行一次自我复制。换句话说，当这个List需要修改时，我并不修改原有的内容（这对于保证当前在读线程的数据一致性非常重要），而是对原有的数据进行一次复制，将修改的内容写入副本中。写完之后，再将修改完的副本替换原来的数据。这样就保证写操作不会影响读了。
 
