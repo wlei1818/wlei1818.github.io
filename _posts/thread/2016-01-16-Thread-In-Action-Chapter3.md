@@ -847,7 +847,7 @@ Thread newThread(Runnable r)
 
 **Ncpu = CPU的数量** <br/>
 **Ucpu = 目标CPU的使用率，0<=Ucpu<=1****<br/>
-**W/C = 等待时间与计算时间的比率**<br/>
+** W/C = 等待时间与计算时间的比率 **<br/>
 
 为保持处理器达到期望的使用率，最优的池的大小等于：<br/>
 **Nthreads = Ncpu * Ucpu *(1 + W/C)**
