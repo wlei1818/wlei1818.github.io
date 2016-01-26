@@ -846,10 +846,10 @@ Thread newThread(Runnable r)
 ###5. 优化线程池线程数量
 
 **Ncpu = CPU的数量** <br/>
-**Ucpu = 目标CPU的使用率，0<=Ucpu<=1****<br/><br/>
+**Ucpu = 目标CPU的使用率，0<=Ucpu<=1****<br/>
 **W/C = 等待时间与计算时间的比率**<br/>
 
-为保持处理器达到期望的使用率，最优的池的大小等于：
+为保持处理器达到期望的使用率，最优的池的大小等于：<br/>
 **Nthreads = Ncpu * Ucpu *(1 + W/C)**
 
 Java中可以通过**System.getRuntime().availableProcessors();**获得可用的CPU的数量
@@ -873,7 +873,7 @@ Java中可以通过**System.getRuntime().availableProcessors();**获得可用的
 public static Map m = Collections.synchronizedMap(new HashMap());
 
 ```
-这行代码会生成一个SynchronizedMap，这个Map底层使用了信号量mutex加同步锁的机制，保证线程安全。因此性能可能并不是太好。
+这行代码会生成一个**SynchronizedMap**，这个Map底层使用了**信号量mutex加同步锁**的机制，保证线程安全。因此性能可能并不是太好。
 
 - ConcurrentHashMap：性能更好。具体在**第四章、锁的优化及注意事项**会详细讲到
 
@@ -918,7 +918,7 @@ boolean casNext(Node<E> cmp, Node<E> val) {
 
 - casItem：用来设置当前Node的item值，cmp是期望值，val是目标值。当当前值=期望值时，就把Node值改成目标值；
 
-ConcurrentLinkedQueue有两个重要字段：head、tail
+**ConcurrentLinkedQueue**有两个重要字段：**head**、**tail**
 
 tail一般来说，我们期望tail总是为链表的末尾，但实际上，tail的更新并不是及时的，而是可能会产生拖延现象。**每次更新会跳跃2个元素**
 
