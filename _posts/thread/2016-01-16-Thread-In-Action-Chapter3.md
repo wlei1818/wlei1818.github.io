@@ -964,3 +964,52 @@ CopyOnWriteArrayList是为了在读取的情况下将性能发挥到极致。对
 
 CopyOnWriteArrayList是在写入操作时，进行一次自我复制。换句话说，当这个List需要修改时，我并不修改原有的内容（这对于保证当前在读线程的数据一致性非常重要），而是对原有的数据进行一次复制，将修改的内容写入副本中。写完之后，再将修改完的副本替换原来的数据。这样就保证写操作不会影响读了。
 
+读取的实现：
+
+```java
+private volatile transient Object[] array;
+
+ final Object[] getArray() {
+    return array;
+}
+
+public E get(int index) {
+    return get(getArray(), index);
+}
+
+```
+
+**需要注意的是：**读取代码没有进行任何的同步操作和锁控制，理由就是内部的数组array不会发生修改，只会被另一个array替换。因此可以保证数据的安全。
+
+与简单的读操作相比，写操作就有点复杂了：
+
+```java
+public boolean add(E e) {
+    final ReentrantLock lock = this.lock;
+    lock.lock();
+    try {
+        Object[] elements = getArray();
+        int len = elements.length;
+        Object[] newElements = Arrays.copyOf(elements, len + 1);
+        newElements[len] = e;
+        setArray(newElements);
+        return true;
+    } finally {
+            lock.unlock();
+    }
+}
+
+```
+
+重点在于第7行代码，进行了内部元素的完整复制。然后第9行使用新的数组代替老的数组，修改就完成了。并且修改完后，读取线程会立即“察觉”到这个修改（因为array变量是volatile类型）
+
+###6.数据共享通道：BlockingQueue
+
+**场景：**多线程间的数据共享。我们既希望线程A能够通知线程B，又希望线程A不知道线程B的存在。那么这个中间的“意见箱”就可以用BlockingQueue来实现。
+
+BlockingQueue是一个接口。其关键还在于Blocking上。当前服务线程（服务线程指不断获取队列中的消息，进行处理的线程）处理完成队列中所有的消息后，它是如何知道下一条消息何时到来呢？
+
+一个傻瓜式的办法就是让这个线程按照一定的时间间隔不停地循环和监控这个队列。但这个造成了资源的不必要的浪费，而循环周期也难以确定。BlockingQueue很好解决了这个问题。**它会让服务线程在队列为空时，进行等待，当有新的消息进入队列后自动将线程唤醒。**
+
+
+
