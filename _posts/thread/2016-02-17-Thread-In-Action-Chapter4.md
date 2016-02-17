@@ -27,3 +27,20 @@ public synchronized void syncMethod(){
 ```
 
 上述同步方法，假设只有metuxMethod()需要同步，那么当otherCode1()和otherCode2()分别是重量级的方法时，则会花费较长的CPU时间。
+
+以下是优化后的代码：
+
+```java
+public  void syncMethod(){
+	otherCode1();
+	synchronized(this){
+      mutexMethod();
+    }
+	otherCode2();
+}
+```
+
+**减少锁的持有时间有助于降低锁冲突的可能性，进而提升系统的并发能力**
+
+###2、减小锁粒度
+
