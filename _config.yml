@@ -2,28 +2,28 @@
 #   Main Configs   #
 # ---------------- #
 baseurl: 
-url: http://sunhanbin.com
+url: http://wlei1818.github.io
 domain: 
 date_format: "ordinal"
-title: 一亩三分地
-subtitle: "指尖人生 Frank Sun"
-description: "指尖人生 Frank Sun"
-keywords: 一亩三分地
+title: 怕什么真理无穷 进一寸有一寸的欢喜
+subtitle: "Wang Lei's Blog"
+description: "Wang Lei's Blog"
+keywords: 怕什么真理无穷 进一寸有一寸的欢喜
 gavatar: /favicon.ico
 favicon: /favicon.ico
 header-img: facebook.jpg
 timezone: Asia/Shanghai
 encoding: "utf-8"
-source_code: https://github.com/sunailian/sunailian.github.io
+source_code: https://github.com/wlei1818/wlei1818.github.io
 
 # ---------------- #
 #      Author      #
 # ---------------- #
-author: Frank Sun 
-organization: NetEase, Inc.
-organization_url: http://www.163.com
+author: Wang Lei
+#organization: NetEase, Inc.
+#organization_url: http://www.163.com
 location: HangZhou, China
-email: sunhanbin@139.com
+email: wlei1818@sina.com or wlei85@gmail.com
 
 # ---------------- #
 #    Navigation    #
