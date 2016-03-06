@@ -89,13 +89,13 @@ collections:
 # ---------------- #
 #      Socials     #
 # ---------------- #
-duoshuo_username: sunhanbin
-github_username: sunailian
-douban_username: sunailian
-facebook_username: mzlogin
-weibo_username: sunangie@126.com
-zhihu_username: sunangie@126.com
-twitter_username: mzlogin
+#duoshuo_username: sunhanbin
+github_username: wlei85
+#douban_username: sunailian
+#facebook_username: mzlogin
+weibo_username: wlei1818@sina.com
+#zhihu_username: sunangie@126.com
+#twitter_username: mzlogin
 #changyan: sunangie
 changyan: false
 
@@ -109,7 +109,7 @@ defaults:
             type: "posts"
         values:
             layout: "post"
-            author: "Frank Sun"
+            author: "Wang Lei"
             header-img: "facebook.jpg"
             autotoc: true
     -
